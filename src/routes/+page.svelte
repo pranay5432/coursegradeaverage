@@ -69,7 +69,7 @@
 	{#each data as row}
 		<tr>
 			{#each row as cell}
-			<td contenteditable="true" bind:innerHTML={cell} />
+			<td contenteditable="false" bind:innerHTML={cell} on:click={addRow}/>
 			{/each}
 			<button on:click={() => deleteRow(row)}>X</button>
 		</tr>
