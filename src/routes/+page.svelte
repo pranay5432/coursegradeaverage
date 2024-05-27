@@ -1,7 +1,15 @@
 <h1>Welcome to SvelteKit</h1>
 <p>Visit <a href="https://kit.svelte.dev">kit.svelte.dev</a> to read the documentation</p>
 <p>Check GPA averages for classes you want to take</p>
+
 <script>
+    import Box from './Box.svelte'
+
+    let bgColor = 'primary'
+       import { Button, Overlay, ProgressCircular, Icon, MaterialApp } from 'svelte-materialify';
+    import { mdiOpenInNew } from '@mdi/js';
+  
+    let active = false; 
   $: quarter = 'fall';
     $: data = [
     ["John", "john@example.com", "(353) 01 222 3333"],
@@ -39,6 +47,9 @@
     function deleteRow(rowToBeDeleted) {
         data = data.filter(row => row != rowToBeDeleted)
     }
+    function graphs() {
+        
+    }
     let columns = ["Name", "Email", "Phone Number"]
     let newRow = [...columns];
 </script>
@@ -69,7 +80,7 @@
 	{#each data as row}
 		<tr>
 			{#each row as cell}
-			<td contenteditable="false" bind:innerHTML={cell} on:click={addRow}/>
+			<td contenteditable="false" bind:innerHTML={cell} on:click={ () => { active = true; }}/>
 			{/each}
 			<button on:click={() => deleteRow(row)}>X</button>
 		</tr>
@@ -86,3 +97,27 @@
 <p>
     randomNumber: {quarter}
 </p>
+<MaterialApp>
+    <div class="text-center">
+      <Button
+        class="primary-color"
+        on:click={() => {
+          active = true;
+        }}>
+        Launch Application
+        <Icon path={mdiOpenInNew} class="ml-2" />
+      </Button>
+    </div>
+    
+    <Overlay
+      {active}
+      on:click={() => {
+        active = false;
+      }}>
+      <ProgressCircular color="white" indeterminate size={128} />
+      <label for="bg-color-box">{bgColor}</label>
+<input id="bg-color-box" type="color" bind:value={bgColor} />	
+
+<Box width='box' height='100px' bg={bgColor} />
+    </Overlay>
+    </MaterialApp>
